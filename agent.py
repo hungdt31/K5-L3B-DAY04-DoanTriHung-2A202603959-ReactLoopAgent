@@ -4,9 +4,11 @@ Vòng lặp dừng khi: model trả lời xong (completed), hết max_steps (max
 hoặc gặp lỗi không cứu được như provider lỗi / output bị cắt (error).
 Lỗi tool KHÔNG dừng vòng lặp: nó được trả lại cho model dưới dạng observation.
 
-Bài 4: kiểm tra nguồn. Khi đã đọc thành công ít nhất một incident bằng get_incident_details
-mà câu trả lời cuối không chứa URL của incident nào trong số đó, agent ghi event
-`validation_missing_source` và yêu cầu model bổ sung URL nếu còn lượt gọi.
+Bài 4: kiểm tra nguồn. Mỗi incident đọc thành công bằng get_incident_details phải có URL
+trong câu trả lời cuối (chấp nhận URL tool trả về, có hoặc không có https://, hoặc dạng
+.../incidents/<id>). Thiếu incident nào thì agent ghi event `validation_missing_source`
+kèm danh sách thiếu, yêu cầu model bổ sung nếu còn lượt gọi; hết lượt thì trả `max_steps`.
+Tool lỗi (ok: false) không bắt URL.
 """
 import json
 
